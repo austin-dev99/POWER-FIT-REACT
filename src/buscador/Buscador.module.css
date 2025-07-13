@@ -1,0 +1,33 @@
+.buscadorForm {
+  display: flex;
+  margin: 0 20px;
+}
+
+.buscadorInput {
+  padding: 8px 15px;
+  border: 2px solid #ddd;
+  border-radius: 20px 0 0px 20px;
+  font-size: 14px;
+  width: 250px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.buscadorInput:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px 5px rgba(74, 144, 226, 0.5);
+}
+
+.buscadorBoton {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buscadorBoton:hover {
+  background-color: #357abd;
+}
