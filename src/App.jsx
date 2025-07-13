@@ -7,6 +7,7 @@ import Contacto from "./components/info/Contacto";
 import { CartProvider } from "./context/CartContext";
 import Carrito from "./components/carrito/Carrito";
 import Checkout from "./checkout/Checkout";
+import Historial from "./checkout/Historial";
 import Devolucion from "./checkout/Devolucion";
 import ResultadosBusqueda from "./buscador/ResultadosBusqueda";
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/carrito" element={<Carrito />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/historial" element={<Historial />} />
             <Route path="/devolucion" element={<Devolucion />} />
             <Route path="/busqueda/:termino" element={<ResultadosBusqueda />} />
           </Routes>
@@ -34,17 +36,12 @@ function App() {
 }
 
 export default App;
-//cualquier cosas que mandemos por context se puede acceder desde cualquier componente que este encerrado
+//cualquier cosas que mandemos por context se puede acceder desde
+//cualquier componente que este encerrado
 
 /* encerramos todo en BrowserRouter los componentes 
-/item/:id parametro dinamico podemos capturar de donde lo recibimos
+/item/:id productos/:categoria parametro dinamico podemos capturar
+ de donde lo recibimos
 routes son nuestras rutas
  useParams es un objeto que nos devuleve el id que viene de la url 
 */
-
-// {
-//   /* <ItemListContainer /> */
-// }
-// {
-//   /* <ItemDetailContainer itemId={5} /> */
-// }

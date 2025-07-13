@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaDumbbell,
   FaTrophy,
@@ -16,40 +17,12 @@ import {
   FaEye,
 } from "react-icons/fa";
 import styles from "./Nosotros.module.css";
-
+import personal from "../../data/personal.json";
 const Nosotros = () => {
   const [activeTab, setActiveTab] = useState("mision");
 
-  const [teamMembers] = useState([
-    {
-      id: 1,
-      name: "Marco Ríos",
-      role: "Nutriólogo Deportivo",
-      image: "/mrn.webp",
-      bio: "Especialista en nutrición deportiva con más de 10 años de experiencia ayudando a atletas a alcanzar su máximo rendimiento.",
-    },
-    {
-      id: 2,
-      name: "Laura Méndez",
-      role: "Entrenadora Personal",
-      image: "/lauen.webp",
-      bio: "Entrenadora certificada con especialización en fuerza y acondicionamiento físico para deportistas de alto rendimiento.",
-    },
-    {
-      id: 3,
-      name: "Diego Torres",
-      role: "Experto en Suplementos",
-      image: "/enp.webp",
-      bio: "Conocedor experto en suplementación deportiva y nutrición avanzada para optimizar el rendimiento y la recuperación.",
-    },
-    {
-      id: 4,
-      name: "Sofía Vargas",
-      role: "Fisioterapeuta Deportiva",
-      image: "/svf.webp",
-      bio: "Especialista en rehabilitación y prevención de lesiones para deportistas de todas las disciplinas.",
-    },
-  ]);
+  // Usar los datos importados del equipo
+  const [teamMembers] = useState(personal);
 
   const stats = [
     {
@@ -100,7 +73,7 @@ const Nosotros = () => {
             </div>
             <div className={styles["feature"]}>
               <FaFire className={styles["feature-icon"]} />
-              <span>Proveedores de confianza</span>
+              <span>Asesoría experta</span>
             </div>
           </div>
         </div>
@@ -302,15 +275,15 @@ const Nosotros = () => {
               accesorios de entrenamiento.
             </p>
             <div className={styles.cta__buttons}>
-              <a href="/productos" className={styles.cta__button}>
+              <Link to="/productos" className={styles.cta__button}>
                 VER PRODUCTOS
-              </a>
-              <a
-                href="/contacto"
+              </Link>
+              <Link
+                to="/contacto"
                 className={`${styles.cta__button} ${styles["cta__button--outline"]}`}
               >
                 CONTÁCTANOS
-              </a>
+              </Link>
             </div>
             <div className={styles.cta__features}>
               <div className={styles.cta__feature}>

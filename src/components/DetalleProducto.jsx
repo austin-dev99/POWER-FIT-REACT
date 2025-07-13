@@ -212,7 +212,7 @@ const DetalleProducto = ({ item }) => {
               <FaTruck className={styles.iconoBeneficio} />
               <div>
                 <h4>Envío gratis</h4>
-                <p>En compras superiores a $50.000</p>
+                <p>En compras superiores a $500.000</p>
               </div>
             </div>
             <div className={styles.beneficio}>

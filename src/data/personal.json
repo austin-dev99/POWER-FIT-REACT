@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Marco Ríos",
+    "role": "Nutriólogo Deportivo",
+    "image": "/mrn.webp",
+    "bio": "Especialista en nutrición deportiva con más de 10 años de experiencia ayudando a atletas a alcanzar su máximo rendimiento."
+  },
+  {
+    "id": 2,
+    "name": "Laura Méndez",
+    "role": "Entrenadora Personal",
+    "image": "/lauen.webp",
+    "bio": "Entrenadora certificada con especialización en fuerza y acondicionamiento físico para deportistas de alto rendimiento."
+  },
+  {
+    "id": 3,
+    "name": "Diego Torres",
+    "role": "Experto en Suplementos",
+    "image": "/enp.webp",
+    "bio": "Conocedor experto en suplementación deportiva y nutrición avanzada para optimizar el rendimiento y la recuperación."
+  },
+  {
+    "id": 4,
+    "name": "Sofía Vargas",
+    "role": "Fisioterapeuta Deportiva",
+    "image": "/svf.webp",
+    "bio": "Especialista en rehabilitación y prevención de lesiones para deportistas de todas las disciplinas."
+  }
+]

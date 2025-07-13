@@ -57,6 +57,9 @@ const Navbar = () => {
           <Link to="/" className={styles.logo} aria-label="Inicio">
             <h1>POWERFIT</h1>
           </Link>
+          <div className={styles.logoText}>
+            <p>Elaborado por ALEXIS REYES</p>
+          </div>
 
           {/* Menú de navegación */}
           <nav className={`${styles.nav} ${isOpen ? styles.active : ""}`}>

@@ -98,12 +98,21 @@ function Carrito() {
               <FaShoppingBag style={{ marginRight: "8px" }} />
               Ver Productos
             </button>
+
             <Link
-              to="/Devolucion"
+              to="/historial"
               className={`${styles.button} ${styles.primaryButton}`}
             >
               Pedidos
               <FaShoppingBag style={{ marginLeft: "12px" }} />
+            </Link>
+            <Link
+              to="/devolucion"
+              className={`${styles.button} ${styles.primaryButton}`}
+              style={{ marginTop: "2rem" }}
+            >
+              <FaArrowLeft style={{ marginRight: "8px" }} />
+              Ver Devoluciones
             </Link>
           </div>
         ) : (
@@ -209,7 +218,7 @@ function Carrito() {
                   <FaShoppingBag style={{ marginLeft: "8px" }} />
                 </Link>
                 <Link
-                  to="/Devolucion"
+                  to="/historial"
                   className={`${styles.button} ${styles.primaryButton}`}
                 >
                   Pedidos

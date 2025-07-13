@@ -5,10 +5,17 @@ export const CartContext = createContext();
 //funcion para guardar en localStorage
 const carritoInicial = JSON.parse(localStorage.getItem("carrito")) || [];
 const pedidosIniciales = JSON.parse(localStorage.getItem("pedidos")) || [];
+const devolucionesIniciales =
+  JSON.parse(localStorage.getItem("devoluciones")) || [];
 
+// carrito: Almacena los productos añadidos al carrito.
+// pedidos: Guarda el historial de pedidos realizados.
+// devoluciones: Almacena las devoluciones realizadas.
+// loading: Estado para controlar la carga inicial.
 export const CartProvider = ({ children }) => {
   const [carrito, setCarrito] = useState(carritoInicial);
   const [pedidos, setPedidos] = useState(pedidosIniciales);
+  const [devoluciones, setDevoluciones] = useState(devolucionesIniciales);
   const [loading, setLoading] = useState(true);
 
   // Simular carga inicial
@@ -65,7 +72,7 @@ export const CartProvider = ({ children }) => {
 
   const vaciarCarrito = (pedido = null) => {
     if (pedido) {
-      console.log("Pedido completado:", pedido.folio);
+      /* console.log("Pedido completado:", pedido.folio); */
     }
     setCarrito([]);
   };
@@ -86,6 +93,20 @@ export const CartProvider = ({ children }) => {
     };
     setPedidos([...pedidos, pedidoConFecha]);
   };
+  // Función para mover un pedido a devoluciones
+  const devolucionPedido = (folio) => {
+    const pedido = pedidos.find((p) => p.folio === folio);
+    if (!pedido) return null;
+
+    const nuevaDevolucion = {
+      ...pedido,
+      fechaDevolucion: new Date().toISOString(),
+      estado: "devuelto",
+    };
+
+    setDevoluciones((prev) => [...prev, nuevaDevolucion]);
+    return nuevaDevolucion;
+  };
 
   // Función para eliminar un pedido
   const eliminarPedido = (folio) => {
@@ -103,12 +124,18 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("pedidos", JSON.stringify(pedidos));
   }, [pedidos]);
 
+  // Guardar devoluciones en localStorage
+  useEffect(() => {
+    localStorage.setItem("devoluciones", JSON.stringify(devoluciones));
+  }, [devoluciones]);
+
   return (
     <CartContext.Provider
       value={{
         carrito, // Estado actual del carrito
         pedidos, // Estado actual de los pedidos
         loading, // Estado de carga
+        devoluciones, // Estado actual de las devoluciones
         agregarAlCarrito, // Función para agregar un producto al carrito
         eliminarDelCarrito, // Función para eliminar un producto del carrito
         actualizarCantidad, // Función para actualizar la cantidad de un producto en el carrito
@@ -117,6 +144,7 @@ export const CartProvider = ({ children }) => {
         precioTotal, // Función para obtener el precio total de los productos en el carrito
         agregarPedido, // Función para agregar un nuevo pedido
         eliminarPedido, // Función para eliminar un pedido
+        devolucionPedido, // Función para devolver un pedido
       }}
     >
       {children} {/* Componentes hijos que pueden acceder al contexto */}

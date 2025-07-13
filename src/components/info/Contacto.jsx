@@ -22,14 +22,14 @@ const Contacto = () => {
   } = useForm();
 
   const enviar = (data) => {
-    console.log("Datos del formulario:", data);
-    // Aquí podrías agregar la lógica para enviar datos a backend
-    
+    /* console.log("Datos del formulario:", data); */
+    // Aquí se podra agregar la lógica para enviar datos a backend
+
     // Simulamos el envío exitoso
     setTimeout(() => {
       setIsSubmitted(true);
       reset(); // Limpia el formulario
-      
+
       // Ocultar el mensaje después de 5 segundos
       setTimeout(() => {
         setIsSubmitted(false);
@@ -150,7 +150,7 @@ const Contacto = () => {
                 <FaPaperPlane className={styles.buttonIcon} />
                 Enviar mensaje
               </button>
-              
+
               {isSubmitted && (
                 <div className={styles.successMessage}>
                   <FaCheckCircle className={styles.successIcon} />
@@ -166,67 +166,3 @@ const Contacto = () => {
 };
 
 export default Contacto;
-
-/* import React from "react";
-import { useState } from "react";
-/* nivel 2 de formulario */
-/* const Contacto = () => {
-  const [valores, setValores] = useState({
-    nombre: "",
-    email: "",
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    /* console.log(valores); */
-/* console.log(valores.nombre);
-    console.log(valores.email); */
-/* propiedad que contenga [e.target.name]: cambia el valor de la propiedad */
-/*  */ /* const handleValores = (e) => {
-  setValores({ ...valores, [e.target.name]: e.target.value });
-}; */
-
-/// return (
-/* <div className="container">
-      <h1 className="main-title">Contacto</h1>
-      <form className="formulario" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Ingresa tu Nombre"
-          value={valores.nombre}
-          onChange={handleValores}
-          name="nombre"
-        />
-        <input
-          type="email"
-          placeholder="Ingresa tu Email"
-          value={valores.email}
-          onChange={handleValores}
-          name="email"
-        />
-        <button className="enviar" type="submit">
-          Enviar
-        </button>
-      </form>
-    </div>
-   );
-   };
-
-  export default Contacto;*/
-//  */
-/* Nivel 1 de formulario
-const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handleNombre = (e) => {
-    setNombre(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
- */

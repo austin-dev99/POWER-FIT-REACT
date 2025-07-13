@@ -1,6 +1,5 @@
 import InfoProductos from "./InfoProductos";
 import styles from "../CSSmodules/Producto.module.css";
-
 import { toCapital } from "../helpers/toCapital";
 
 //recibe como prop un array de productos y un titulo

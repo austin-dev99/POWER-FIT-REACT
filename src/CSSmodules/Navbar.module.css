@@ -71,6 +71,24 @@
   font-size: 1.8rem;
 }
 
+.logoText {
+  position: absolute;
+  right: 1rem;
+  bottom: -0.5rem; /* Ajusta esta posición  */
+  font-size: 1rem;
+  color: var(--text-light);
+  opacity: 0.8;
+  white-space: nowrap; /* Evita que el texto se parta en varias líneas */
+  transform: translateY(100%); /* Mueve el texto hacia abajo */
+}
+
+.logoText p:hover {
+  color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
 /* Navegación */
 .nav {
   display: flex;
@@ -91,7 +109,7 @@
   margin: 0 0.5rem;
 }
 
-.navLink, 
+.navLink,
 .dropdownToggle {
   display: flex;
   align-items: center;
@@ -363,9 +381,19 @@
 
 /* Animaciones */
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-10px); }
-  60% { transform: translateY(-5px); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
 }
 
 .bounce {
