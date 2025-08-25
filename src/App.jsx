@@ -10,6 +10,7 @@ import Checkout from "./checkout/Checkout";
 import Historial from "./checkout/Historial";
 import Devolucion from "./checkout/Devolucion";
 import ResultadosBusqueda from "./buscador/ResultadosBusqueda";
+import CategoriasFacets from "./buscador/CategoriasFacets";
 function App() {
   return (
     <div>
@@ -28,6 +29,7 @@ function App() {
             <Route path="/historial" element={<Historial />} />
             <Route path="/devolucion" element={<Devolucion />} />
             <Route path="/busqueda/:termino" element={<ResultadosBusqueda />} />
+            <Route path="/categorias" element={<CategoriasFacets />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>

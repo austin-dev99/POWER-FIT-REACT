@@ -9,9 +9,9 @@ const InfoProductos = ({ producto }) => {
   const { agregarAlCarrito } = useContext(CartContext);
   return (
     <div className={styles.producto}>
-      <img src={producto.imagen} alt={producto.titulo} />
+      <img src={producto.imagen} alt={producto.nombre} />
       <div className={styles["producto"]}>
-        <h2>{producto.titulo}</h2>
+        <h2>{producto.nombre}</h2>
         <p>${producto.precio}</p>
         <p>Categoria: {toCapital(producto.categoria)}</p>
         <p>Descripcion: {producto.descripcion}</p>

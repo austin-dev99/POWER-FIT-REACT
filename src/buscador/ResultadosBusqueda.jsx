@@ -1,35 +1,53 @@
+// src/buscador/ResultadosBusqueda.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { pedirDatos } from "../helpers/pedirDatos";
+import { buscarProductos } from "../api";
 import ListadoProductos from "../components/ListadoProductos";
+
 
 const ResultadosBusqueda = () => {
   const [productos, setProductos] = useState([]);
-  const [cargando, setCargando] = useState(true);
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState("");
   const { termino } = useParams();
 
   useEffect(() => {
-    setCargando(true);
+    let active = true;
 
-    pedirDatos().then((res) => {
-      const resultados = res.filter(
-        (prod) =>
-          (prod.titulo && prod.titulo.toLowerCase().includes(termino)) ||
-          (prod.descripcion &&
-            prod.descripcion.toLowerCase().includes(termino)) ||
-          (prod.categoria && prod.categoria.toLowerCase().includes(termino)) ||
-          (prod.subcategoria &&
-            prod.subcategoria.toLowerCase().includes(termino))
-      );
+    const fetchData = async () => {
+      if (!termino) return;
+      setCargando(true);
+      setError("");
 
-      setProductos(resultados);
-      setCargando(false);
-    });
+      try {
+        const res = await buscarProductos(termino);
+        // Estructura de ES: res.data.hits.hits = [{_id, _source: { ...producto }}]
+        const hits = res.data?.hits?.hits ?? [];
+        const items = hits.map((h) => ({
+          id: h._source?.id ?? h._id,
+          ...h._source,
+        }));
+
+        if (active) setProductos(items);
+      } catch (e) {
+        console.error("Error en búsqueda:", e);
+        if (active) {
+          setError("No se pudo realizar la búsqueda.");
+          setProductos([]);
+        }
+      } finally {
+        if (active) setCargando(false);
+      }
+    };
+
+    fetchData();
+    return () => {
+      active = false; // evita setState después de unmount
+    };
   }, [termino]);
 
-  if (cargando) {
-    return <div className="cargando">Buscando productos...</div>;
-  }
+  if (cargando) return <div className="cargando">Buscando productos...</div>;
+  if (error) return <div className="sin-resultados">{error}</div>;
 
   return (
     <div>

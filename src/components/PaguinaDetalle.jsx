@@ -1,24 +1,25 @@
 import { useState, useEffect } from "react";
-import { pedirItemPorId } from "../helpers/pedirDatos";
+import { getProductoById } from "../api";  // 👈 usamos API real
 import DetalleProducto from "./DetalleProducto";
 import { useParams } from "react-router-dom";
-//Donde recibimos el itemId por props se definira como parametro dinamico
-const PaguinaDetalle = () => {
-  //tenemos un estado---null para no mostrar nada al principio
+
+const PaginaDetalle = () => {
   const [item, setItem] = useState(null);
-  //llamamos a la funcion pedirItemPorId y ponemos el itemId por props
-  const id = useParams().id;
-  /* useParams es un objeto que nos devuleve el id que viene de la url 
-  devuelve el string y lo convertimos con Number a numero
-  */
+  const { id } = useParams(); // viene de la URL: /item/:id
 
   useEffect(() => {
-    pedirItemPorId(Number(id)).then((res) => {
-      setItem(res);
-    });
+    const fetchData = async () => {
+      try {
+        const res = await getProductoById(id);
+        setItem(res.data);
+      } catch (err) {
+        console.error("Error cargando producto:", err);
+      }
+    };
+    fetchData();
   }, [id]);
-  //tenemos nuestro item que recibe el estado del item final
+
   return <div>{item && <DetalleProducto item={item} />}</div>;
 };
 
-export default PaguinaDetalle;
+export default PaginaDetalle;

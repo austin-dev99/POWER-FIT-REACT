@@ -1,42 +1,28 @@
 import { useEffect, useState } from "react";
-import { pedirDatos } from "../helpers/pedirDatos";
+import { getProductos } from "../api"; // 👈 solo este
 import ListadoProductos from "./ListadoProductos";
 import { useParams } from "react-router-dom";
-//modulo importacion nombrada pedimos la informacion y set los productos
 
-//definicion de componente
 const SaveProductos = () => {
-  //estados locales
   const [productos, setProductos] = useState([]);
   const [titulo, setTitulo] = useState("productos");
-  const categoria = useParams().categoria;
-  /* obtenemos datos mediante una promesa 
-  efecto para cargar y filtrar productos
-  */
+  const { categoria } = useParams();
+
   useEffect(() => {
-    pedirDatos().then((res) => {
-      if (categoria) {
-        //si existe categoria, filtrar productos
-        setProductos(
-          res.filter((prod) =>
-            [prod.subcategoria, prod.categoria].includes(categoria)
-          )
-        );
-        setTitulo(categoria);
-      } else {
-        //si no existe categoria, mostrar todos los productos
-        setProductos(res);
-        setTitulo("productos");
+    const fetchData = async () => {
+      try {
+        const res = await getProductos(categoria); // 👈 ya maneja ambos casos
+        setProductos(res.data);
+        setTitulo(categoria || "productos");
+      } catch (e) {
+        console.error("Error cargando productos:", e);
+        setProductos([]);
       }
-    });
+    };
+    fetchData();
   }, [categoria]);
-  //mandamos los productos y el titulo
-  //el contenedor logico de ListadoProductos
-  return (
-    <div>
-      <ListadoProductos productos={productos} titulo={titulo} />
-    </div>
-  );
+
+  return <ListadoProductos productos={productos} titulo={titulo} />;
 };
 
 export default SaveProductos;
