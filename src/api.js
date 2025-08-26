@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base = process.env.NEXT_PUBLIC_API_BASE; // Debe ser https://gateway-production-a812.up.railway.app
+const base = https://gateway-production-a812.up.railway.app
 if (!base) {
   // Log solo en dev
   // eslint-disable-next-line no-console
