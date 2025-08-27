@@ -22,7 +22,7 @@ const ResultadosBusqueda = () => {
       try {
         const res = await buscarProductos(termino);
         // Estructura de ES: res.data.hits.hits = [{_id, _source: { ...producto }}]
-        const hits = res?.hits?.hits ?? [];
+        const hits = res.data?.hits?.hits ?? [];
         const items = hits.map((h) => ({
           id: h._source?.id ?? h._id,
           ...h._source,
