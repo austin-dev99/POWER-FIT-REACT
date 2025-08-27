@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Lee la base desde variable pública de Vercel/Next
-const rawBase = process.env.NEXT_PUBLIC_API_BASE;
+const rawBase = process.env.REACT_APP_API_BASE;
 
 /**
  * Normaliza una baseURL:
