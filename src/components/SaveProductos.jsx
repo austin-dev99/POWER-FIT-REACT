@@ -12,7 +12,7 @@ const SaveProductos = () => {
     const fetchData = async () => {
       try {
         const res = await getProductos(categoria); // 👈 ya maneja ambos casos
-        setProductos(res.data);
+        setProductos(res);
         setTitulo(categoria || "productos");
       } catch (e) {
         console.error("Error cargando productos:", e);
