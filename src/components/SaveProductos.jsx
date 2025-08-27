@@ -1,28 +1,41 @@
 import { useEffect, useState } from "react";
-import { getProductos } from "../api"; // 👈 solo este
+import { getProductos } from "../api";
 import ListadoProductos from "./ListadoProductos";
 import { useParams } from "react-router-dom";
 
 const SaveProductos = () => {
   const [productos, setProductos] = useState([]);
-  const [titulo, setTitulo] = useState("productos");
+  const [loading, setLoading] = useState(false);
   const { categoria } = useParams();
 
   useEffect(() => {
+    let cancelado = false;
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const res = await getProductos(categoria); // 👈 ya maneja ambos casos
-        setProductos(res.data);
-        setTitulo(categoria || "productos");
+        const data = await getProductos(categoria);
+        if (!cancelado) {
+          // data ya es el array
+            setProductos(Array.isArray(data) ? data : []);
+        }
       } catch (e) {
         console.error("Error cargando productos:", e);
-        setProductos([]);
+        if (!cancelado) setProductos([]);
+      } finally {
+        if (!cancelado) setLoading(false);
       }
     };
     fetchData();
+    return () => { cancelado = true; };
   }, [categoria]);
 
-  return <ListadoProductos productos={productos} titulo={titulo} />;
+  return (
+    <ListadoProductos
+      productos={productos}
+      titulo={categoria || "productos"}
+      loading={loading}
+    />
+  );
 };
 
 export default SaveProductos;

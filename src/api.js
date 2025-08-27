@@ -22,7 +22,7 @@ const base = normalizeBaseUrl(rawBase);
 
 if (!base) {
   // Mensaje útil en consola cuando falta la variable
-  console.warn("NEXT_PUBLIC_API_BASE no está definida. Configúrala en Vercel con el dominio completo del gateway, por ejemplo: https://gateway-production-XXXX.up.railway.app");
+  console.warn("REACT_APP_API_BASE no está definida. Configúrala en Vercel con el dominio completo del gateway, por ejemplo: https://gateway-production-XXXX.up.railway.app");
 }
 
 export const API = axios.create({
