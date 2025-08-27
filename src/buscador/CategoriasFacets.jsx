@@ -6,14 +6,14 @@ const CategoriasFacets = () => {
   const [categorias, setCategorias] = useState([]);
   const [productos, setProductos] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+  const [cargando, setCargando] = useState(false);
 
-  // 🔹 Cargar categorías desde Elastic
   useEffect(() => {
     const fetchFacets = async () => {
       try {
-        const res = await facetsCategorias();
-        const buckets = res.data?.aggregations?.categorias?.buckets ?? [];
-        setCategorias(buckets.map((b) => b.key));
+        const data = await facetsCategorias();
+        const buckets = data?.aggregations?.categorias?.buckets ?? [];
+        setCategorias(buckets.map(b => b.key));
       } catch (e) {
         console.error("Error cargando facetas:", e);
       }
@@ -21,32 +21,40 @@ const CategoriasFacets = () => {
     fetchFacets();
   }, []);
 
-  // 🔹 Cargar productos de la categoría seleccionada
   useEffect(() => {
     if (!categoriaSeleccionada) return;
-    const fetchProductos = async () => {
+    let cancelled = false;
+    const fetchProd = async () => {
+      setCargando(true);
       try {
-        const res = await buscarProductos(categoriaSeleccionada);
-        const hits = res.data?.hits?.hits ?? [];
-        const items = hits.map((h) => ({
+        const data = await buscarProductos(categoriaSeleccionada);
+        const hits = data?.hits?.hits ?? [];
+        const items = hits.map(h => ({
           id: h._source?.id ?? h._id,
-          ...h._source,
+          ...h._source
         }));
-        setProductos(items);
+        if (!cancelled) setProductos(items);
       } catch (e) {
         console.error("Error en búsqueda por categoría:", e);
+        if (!cancelled) setProductos([]);
+      } finally {
+        if (!cancelled) setCargando(false);
       }
     };
-    fetchProductos();
+    fetchProd();
+    return () => { cancelled = true; };
   }, [categoriaSeleccionada]);
 
   return (
     <div>
       <h2>Categorías</h2>
       <ul>
-        {categorias.map((cat) => (
+        {categorias.map(cat => (
           <li key={cat}>
-            <button onClick={() => setCategoriaSeleccionada(cat)}>
+            <button
+              disabled={cargando && categoriaSeleccionada === cat}
+              onClick={() => setCategoriaSeleccionada(cat)}
+            >
               {cat}
             </button>
           </li>
@@ -54,10 +62,15 @@ const CategoriasFacets = () => {
       </ul>
 
       {categoriaSeleccionada && (
-        <ListadoProductos
-          productos={productos}
-          titulo={`Productos en ${categoriaSeleccionada}`}
-        />
+        <>
+          {cargando && <p>Cargando productos...</p>}
+          {!cargando && (
+            <ListadoProductos
+              productos={productos}
+              titulo={`Productos en ${categoriaSeleccionada}`}
+            />
+          )}
+        </>
       )}
     </div>
   );

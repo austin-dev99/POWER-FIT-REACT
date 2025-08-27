@@ -1,48 +1,52 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { suggestProductos } from "../api";   // 👈 importa tu función del backend
+import { suggestProductos } from "../api";
 import styles from "./Buscador.module.css";
 
+const DEBOUNCE = 300;
+
 const Buscador = () => {
-  const [terminoBusqueda, setTerminoBusqueda] = useState("");
+  const [termino, setTermino] = useState("");
+  const [debounced, setDebounced] = useState("");
   const [sugerencias, setSugerencias] = useState([]);
+  const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
 
-  // 🔎 Cada vez que el usuario escribe, pedimos sugerencias
+  // Debounce
   useEffect(() => {
-    const fetchSugerencias = async () => {
-      if (terminoBusqueda.length < 2) {
+    const id = setTimeout(() => setDebounced(termino), DEBOUNCE);
+    return () => clearTimeout(id);
+  }, [termino]);
+
+  useEffect(() => {
+    const fetchSug = async () => {
+      if (debounced.trim().length < 2) {
         setSugerencias([]);
         return;
       }
-
+      setCargando(true);
       try {
-        const res = await suggestProductos(terminoBusqueda);
-        const hits = res.data?.hits?.hits ?? [];
-        const sugerenciasFormateadas = hits.map((h) => ({
-          id: h._id,
-          nombre: h._source?.nombre,
+        const data = await suggestProductos(debounced);
+        const hits = data?.hits?.hits ?? [];
+        const lista = hits.map(h => ({
+          id: h._source?.id ?? h._id,
+          nombre: h._source?.nombre ?? "(sin nombre)",
         }));
-        setSugerencias(sugerenciasFormateadas);
+        setSugerencias(lista);
       } catch (e) {
-        console.error("Error cargando sugerencias:", e);
+        console.error("[Buscador] Error sugerencias:", e);
         setSugerencias([]);
+      } finally {
+        setCargando(false);
       }
     };
-
-    fetchSugerencias();
-  }, [terminoBusqueda]);
+    fetchSug();
+  }, [debounced]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (terminoBusqueda.trim() !== "") {
-      navigate(`/busqueda/${terminoBusqueda}`);
-    }
-  };
-
-  const handleClickSugerencia = (nombre) => {
-    navigate(`/busqueda/${nombre}`);
-    setSugerencias([]); // ocultar sugerencias después de click
+    const t = termino.trim();
+    if (t) navigate(`/busqueda/${t}`);
   };
 
   return (
@@ -50,21 +54,20 @@ const Buscador = () => {
       <form onSubmit={handleSubmit} className={styles.buscadorForm}>
         <input
           type="text"
-          value={terminoBusqueda}
-          onChange={(e) => setTerminoBusqueda(e.target.value)}
+          value={termino}
+          onChange={(e) => setTermino(e.target.value)}
           placeholder="Buscar productos..."
           className={styles.buscadorInput}
         />
-        <button type="submit" className={styles.buscadorBoton}>
-          Buscar
-        </button>
+        <button type="submit" className={styles.buscadorBoton}>Buscar</button>
       </form>
 
-      {/* 🔽 Mostrar sugerencias */}
-      {sugerencias.length > 0 && (
+      {cargando && <div className={styles.loading}>Cargando...</div>}
+
+      {!cargando && sugerencias.length > 0 && (
         <ul className={styles.sugerencias}>
-          {sugerencias.map((s) => (
-            <li key={s.id} onClick={() => handleClickSugerencia(s.nombre)}>
+          {sugerencias.map(s => (
+            <li key={s.id} onClick={() => navigate(`/busqueda/${s.nombre}`)}>
               {s.nombre}
             </li>
           ))}
