@@ -18,7 +18,7 @@ const Buscador = () => {
 
       try {
         const res = await suggestProductos(terminoBusqueda);
-        const hits = res.data?.hits?.hits ?? [];
+        const hits = res?.hits?.hits ?? [];
         const sugerenciasFormateadas = hits.map((h) => ({
           id: h._id,
           nombre: h._source?.nombre,
