@@ -137,3 +137,14 @@ export const suggestProductos = async (prefix) => {
 
 export const facetsCategorias = () =>
   API.get(join(BUSCADOR_PREFIX, "/facets")).then((r) => r.data);
+
+
+export const buscarProductosSimple = (termino, size = 20) =>
+  API.get("/buscador/search-simple", { params: { q: termino, size } })
+     .then(r => r.data);  // {items, total, took}
+
+export const suggestProductosSimple = (prefix) => {
+  if (!prefix || prefix.trim().length < 2) return Promise.resolve({ items: [] });
+  return API.get("/buscador/suggest-simple", { params: { q: prefix } })
+           .then(r => r.data); // {items}
+};
