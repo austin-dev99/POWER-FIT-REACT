@@ -148,3 +148,32 @@ export const suggestProductosSimple = (prefix) => {
   return API.get("/buscador/suggest-simple", { params: { q: prefix } })
            .then(r => r.data); // {items}
 };
+
+export const buscarProductos = (termino, size = 20) =>
+  API.get("/buscador/search", { params: { q: termino, size } })
+     .then(r => {
+       const data = r.data || {};
+       // Preferimos data.items, si no existe mapeamos hits
+       const items = Array.isArray(data.items)
+         ? data.items
+         : (data.hits?.hits || []).map(h => ({
+             ...(h._source || {}),
+             id: (h._source?.id) ?? h._id,
+             _score: h._score
+           }));
+       return { items, total: data.totalParsed ?? data.total ?? items.length, raw: data };
+     });
+
+export const suggestProductos = (prefix) => {
+  if (!prefix || prefix.trim().length < 2) return Promise.resolve([]);
+  return API.get("/buscador/suggest", { params: { q: prefix } })
+    .then(r => {
+      const data = r.data || {};
+      if (Array.isArray(data.items)) return data.items;
+      return (data.hits?.hits || []).map(h => ({
+        ...(h._source || {}),
+        id: (h._source?.id) ?? h._id,
+        _score: h._score
+      }));
+    });
+};
