@@ -78,10 +78,10 @@ export const getProductoById = (id) =>
  *   const docs = data?.hits?.hits?.map(h => h._source) ?? [];
  */
 export const buscarProductos = (termino, size = 20) =>
-  API.get("/buscador/search", { params: { q: termino, size } }).then((r) => r.data);
+  API.get("/search", { params: { q: termino, size } }).then((r) => r.data);
 
 export const suggestProductos = (prefix) =>
-  API.get("/buscador/suggest", { params: { q: prefix } }).then((r) => r.data);
+  API.get("/suggest", { params: { q: prefix } }).then((r) => r.data);
 
 export const facetsCategorias = () =>
-  API.get("/buscador/facets").then((r) => r.data);
+  API.get("/facets").then((r) => r.data);
