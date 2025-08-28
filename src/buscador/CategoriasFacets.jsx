@@ -11,8 +11,8 @@ const CategoriasFacets = () => {
   useEffect(() => {
     const fetchFacets = async () => {
       try {
-        const res = await facetsCategorias();
-        const buckets = res.data?.aggregations?.categorias?.buckets ?? [];
+  const res = await facetsCategorias();
+  const buckets = res?.aggregations?.categorias?.buckets ?? [];
         setCategorias(buckets.map((b) => b.key));
       } catch (e) {
         console.error("Error cargando facetas:", e);
@@ -26,8 +26,8 @@ const CategoriasFacets = () => {
     if (!categoriaSeleccionada) return;
     const fetchProductos = async () => {
       try {
-        const res = await buscarProductos(categoriaSeleccionada);
-        const hits = res.data?.hits?.hits ?? [];
+  const res = await buscarProductos(categoriaSeleccionada);
+  const hits = res?.hits?.hits ?? [];
         const items = hits.map((h) => ({
           id: h._source?.id ?? h._id,
           ...h._source,

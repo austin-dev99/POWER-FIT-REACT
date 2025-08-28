@@ -20,9 +20,9 @@ const ResultadosBusqueda = () => {
       setError("");
 
       try {
-        const res = await buscarProductos(termino);
-        // Estructura de ES: res.data.hits.hits = [{_id, _source: { ...producto }}]
-        const hits = res.data?.hits?.hits ?? [];
+  const res = await buscarProductos(termino);
+  // buscarProductos ya devuelve el body JSON de ES
+  const hits = res?.hits?.hits ?? [];
         const items = hits.map((h) => ({
           id: h._source?.id ?? h._id,
           ...h._source,
