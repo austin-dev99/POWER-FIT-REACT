@@ -58,7 +58,10 @@ const Navbar = () => {
             <h1>POWERFIT</h1>
           </Link>
           <div className={styles.logoText}>
-            <p>Elaborado por ALEXIS REYES</p>
+            <p>Elaborado por ARJ
+            
+            
+            🐷</p>
           </div>
 
           {/* Menú de navegación */}
